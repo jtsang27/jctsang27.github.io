@@ -1,0 +1,299 @@
+:root {
+  --bg: #121214;
+  --bg-raised: #1a1a1d;
+  --text: #f2efe9;
+  --text-dim: #8c8a86;
+  --accent: #e0a845;
+  --border: #2a2a2d;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Manrope', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* ---------- Loader ---------- */
+#loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.7s ease, visibility 0.7s ease;
+}
+
+#loader.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.loader-frame {
+  position: relative;
+  width: min(46vw, 420px);
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+}
+
+.loader-frame .frame {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+}
+
+.loader-frame .frame.active { opacity: 1; }
+
+.loader-label {
+  margin-top: 26px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+}
+
+.loader-label .count {
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+
+.site.loading { overflow: hidden; height: 100vh; }
+
+/* ---------- Nav ---------- */
+header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 28px clamp(20px, 5vw, 56px);
+  z-index: 100;
+  mix-blend-mode: difference;
+}
+
+.logo {
+  font-family: 'Instrument Serif', serif;
+  font-size: 22px;
+  letter-spacing: 0.02em;
+}
+
+nav { display: flex; gap: 32px; }
+
+nav a {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  opacity: 0.85;
+  transition: opacity 0.2s ease;
+}
+
+nav a:hover { opacity: 1; }
+
+/* ---------- Hero ---------- */
+.hero {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1.1s ease;
+  background-size: cover;
+  background-position: center;
+}
+
+.hero-slide.active { opacity: 1; }
+
+.hero-slide::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.05) 35%, rgba(0,0,0,0.35) 100%);
+}
+
+.hero-mark {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 130px clamp(8px, 2vw, 40px) 100px;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.hero-name {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: clamp(52px, 10.5vw, 180px);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  text-align: center;
+  width: 100%;
+}
+
+/* ---------- Scrolling thumbnail strip ---------- */
+.hero-strip {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: clamp(100px, 9vw, 150px);
+  overflow: hidden;
+  z-index: 3;
+}
+
+.hero-strip-track {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  animation: heroStripScroll 26s linear infinite;
+  will-change: transform;
+}
+
+.hero-strip:hover .hero-strip-track { animation-play-state: paused; }
+
+@keyframes heroStripScroll {
+  from { transform: translateY(0); }
+  to { transform: translateY(-50%); }
+}
+
+.strip-thumb {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  flex-shrink: 0;
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+}
+
+.strip-thumb::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  transition: background 0.25s ease;
+}
+
+.strip-thumb:hover::after { background: rgba(0, 0, 0, 0); }
+
+.hero-info {
+  position: absolute;
+  left: 0; right: 0; bottom: 40px;
+  z-index: 4;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 clamp(20px, 5vw, 56px);
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.hero-info-left .title {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-bottom: 4px;
+}
+
+.hero-info-left .sub {
+  font-size: 14px;
+  color: var(--text-dim);
+}
+
+.hero-info-right {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.hero-role { text-align: left; }
+
+.hero-role .role-label {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-bottom: 4px;
+}
+
+.hero-role .role-name {
+  font-size: 14px;
+  color: var(--text-dim);
+}
+
+.hero-dots {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hero-dots .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(242, 239, 233, 0.35);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: width 0.3s ease, background 0.3s ease;
+}
+
+.hero-dots .dot.active {
+  width: 20px;
+  background: var(--text);
+}
+
+@media (max-width: 700px) {
+  .hero-info { align-items: flex-start; }
+  .hero-info-right { gap: 20px; }
+  .hero-dots { display: none; }
+}
+
+/* ---------- Goals / description ---------- */
+.goals {
+  padding: 140px clamp(20px, 6vw, 56px) 150px;
+  border-top: 1px solid var(--border);
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.goals-block + .goals-block { margin-top: 80px; }
+
+.goals-block h2 {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: 0.02em;
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.goals-block p {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 400;
+  font-size: clamp(17px, 1.9vw, 21px);
+  line-height: 1.7;
+  text-align: justify;
+  text-indent: 2em;
+  color: var(--text);
+}
