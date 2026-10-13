@@ -234,28 +234,100 @@ function Hero() {
   );
 }
 
+// Fades/slides an element in once it scrolls into view.
+function useReveal() {
+  const ref = useRef(null);
+  const [shown, setShown] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || typeof IntersectionObserver === 'undefined') { setShown(true); return; }
+    const io = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { setShown(true); io.disconnect(); }
+    }, { threshold: 0.2 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return [ref, shown];
+}
+
+function Reveal({ as: Tag = 'div', className = '', delay = 0, children, ...rest }) {
+  const [ref, shown] = useReveal();
+  return (
+    <Tag
+      ref={ref}
+      className={`reveal${shown ? ' in' : ''} ${className}`.trim()}
+      style={{ transitionDelay: `${delay}ms` }}
+      {...rest}
+    >
+      {children}
+    </Tag>
+  );
+}
+
+const facts = [
+  { big: 'D1', label: 'NCAA swimmer, Boston University' },
+  { big: 'DS', label: 'Data Science major' },
+  { big: '+2', label: 'Minors: Mathematics & Film' },
+  { big: "'26", label: 'Graduating December 2026' },
+];
+
 function Goals() {
   return (
     <section className="goals" id="about">
+      <Reveal as="h2" className="section-kicker">ABOUT</Reveal>
+
+      <Reveal className="facts">
+        {facts.map((f) => (
+          <div className="fact" key={f.big}>
+            <div className="fact-big">{f.big}</div>
+            <div className="fact-label">{f.label}</div>
+          </div>
+        ))}
+      </Reveal>
+
       <div className="goals-block">
-        <h2>BACKGROUND</h2>
-        <p>
+        <Reveal as="h3">BACKGROUND</Reveal>
+        <Reveal as="p" delay={80}>
           I grew up between the Bay Area and Hong Kong, and I&rsquo;m an NCAA Division I swimmer at
           Boston University, graduating in December 2026 with a major in Data Science and minors in
           Mathematics and Film. Outside of the pool and coursework, I spend my free time writing,
           shooting, and editing short films — trying to find the throughline between analytical
           thinking and creative work.
-        </p>
+        </Reveal>
       </div>
       <div className="goals-block">
-        <h2>CURRENT GOALS</h2>
-        <p>
+        <Reveal as="h3">CURRENT GOALS</Reveal>
+        <Reveal as="p" delay={80}>
           Right now I&rsquo;m looking for an entry-level, full-time data science / machine learning
           role for after I graduate — something where I can apply modeling and analytics to real
           problems.
-        </p>
+        </Reveal>
       </div>
     </section>
+  );
+}
+
+function Contact() {
+  return (
+    <section className="contact" id="contact">
+      <Reveal as="h2" className="section-kicker">CONTACT</Reveal>
+      <Reveal as="p" className="contact-lead" delay={60}>
+        Open to data science &amp; machine learning roles — and to talking about film.
+      </Reveal>
+      <Reveal className="contact-links" delay={120}>
+        {/* TODO(owner): add your email as a mailto: link here. */}
+        <a href="https://github.com/jtsang27" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+      </Reveal>
+    </section>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="footer">
+      <span>© {new Date().getFullYear()} Jonathan Tsang</span>
+      <span>Data Science · Film</span>
+    </footer>
   );
 }
 
@@ -269,6 +341,8 @@ export default function App() {
         <Nav />
         <Hero />
         <Goals />
+        <Contact />
+        <Footer />
       </div>
     </>
   );
