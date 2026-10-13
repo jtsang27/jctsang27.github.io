@@ -2,11 +2,26 @@ import { useEffect, useRef, useState } from 'react';
 
 // Swap these gradients for real backgrounds — e.g. bg: "url('/videos/reel-01.jpg')"
 // — or render a <video> instead of a plain div in <HeroSlides>.
+//
+// A slide with a `videoId` (YouTube ID) automatically shows that video's
+// real thumbnail as its background/square art, and hovering its square in
+// the scrolling strip plays the video live, muted, in the hero — swap in
+// your own IDs as you upload films.
+const ytThumb = (id) => `url('https://i.ytimg.com/vi/${id}/maxresdefault.jpg') center/cover`;
+
 const heroSlides = [
   { title: 'Below the Surface', sub: 'Short Film',     role: 'DIRECTOR', name: 'Jonathan', bg: 'linear-gradient(135deg, #1c1c1f, #2a2a2e)' },
   { title: 'Meet Day',          sub: 'Documentary',    role: 'DIRECTOR', name: 'Jonathan', bg: 'linear-gradient(135deg, #1a1f24, #262b30)' },
   { title: 'Home, Twice',       sub: 'Personal Essay', role: 'DIRECTOR', name: 'Jonathan', bg: 'linear-gradient(135deg, #201c1a, #2c2622)' },
-  { title: 'Reel 2026',         sub: 'Showreel',       role: 'DIRECTOR', name: 'Jonathan', bg: 'linear-gradient(135deg, #1a1c22, #24262e)' },
+  {
+    title: 'Reel 2026',
+    sub: 'Showreel',
+    role: 'DIRECTOR',
+    name: 'Jonathan',
+    videoId: 'P3eojeUc0O4', // TODO: swap for your real reel's YouTube ID
+    bg: 'linear-gradient(135deg, #1a1c22, #24262e)', // plain background for the hero — no big thumbnail
+    thumbBg: ytThumb('P3eojeUc0O4'), // real thumbnail, only for the small strip square
+  },
 ];
 
 // Drop your own burst-shot sequence here for the loading screen — the
@@ -94,10 +109,15 @@ function Nav() {
 
 function Hero() {
   const [current, setCurrent] = useState(0);
+  const [previewOn, setPreviewOn] = useState(false);
   const timerRef = useRef(null);
+  // Once true (first thumbnail hover), auto-rotation stops for good — the
+  // hero only changes when a different thumbnail is hovered from then on.
+  const lockedRef = useRef(false);
 
   const resetTimer = () => {
     clearInterval(timerRef.current);
+    if (lockedRef.current) return;
     timerRef.current = setInterval(() => {
       setCurrent((c) => (c + 1) % heroSlides.length);
     }, 6000);
@@ -110,13 +130,16 @@ function Hero() {
   }, []);
 
   const goTo = (i) => {
+    setPreviewOn(false);
     setCurrent((i + heroSlides.length) % heroSlides.length);
     resetTimer();
   };
 
-  const showSlide = (i) => {
+  const onThumbEnter = (i) => {
+    lockedRef.current = true;
     clearInterval(timerRef.current);
     setCurrent(i);
+    setPreviewOn(!!heroSlides[i].videoId);
   };
 
   // Swipe support
@@ -137,12 +160,36 @@ function Hero() {
             key={i}
             className={'hero-slide' + (i === current ? ' active' : '')}
             style={{ background: s.bg }}
-          />
+          >
+            {i === current && previewOn && s.videoId && (
+              <iframe
+                className="hero-preview-frame"
+                src={`https://www.youtube-nocookie.com/embed/${s.videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${s.videoId}&modestbranding=1&rel=0&playsinline=1`}
+                title={`${s.title} preview`}
+                allow="autoplay; encrypted-media"
+              />
+            )}
+          </div>
         ))}
       </div>
 
       <div className="hero-mark">
-        <div className="hero-name">JONATHAN TSANG</div>
+        {/* Solid text run through an SVG dilate-then-subtract filter, so
+            the result is a single outline tracing the whole word's outer
+            silhouette — not a per-letter stroke, which would show messy
+            crossing lines wherever glyphs touch or overlap. */}
+        <svg width="0" height="0" style={{ position: 'absolute' }} aria-hidden="true">
+          <filter id="bubbleOutline">
+            <feMorphology in="SourceAlpha" operator="dilate" radius="3" result="dilated" />
+            <feComposite in="dilated" in2="SourceAlpha" operator="out" result="ring" />
+            <feFlood floodColor="#f2efe9" result="ringColor" />
+            <feComposite in="ringColor" in2="ring" operator="in" />
+          </filter>
+        </svg>
+        <div className="hero-name">
+          <span>JONATHAN</span>
+          <span>TSANG</span>
+        </div>
       </div>
 
       <div className="hero-strip">
@@ -152,10 +199,9 @@ function Hero() {
             return (
               <div
                 key={i}
-                className="strip-thumb"
-                style={{ background: s.bg }}
-                onMouseEnter={() => showSlide(idx)}
-                onMouseLeave={resetTimer}
+                className={'strip-thumb' + (s.videoId ? ' has-video' : '')}
+                style={{ background: s.thumbBg || s.bg }}
+                onMouseEnter={() => onThumbEnter(idx)}
               />
             );
           })}
@@ -194,19 +240,19 @@ function Goals() {
       <div className="goals-block">
         <h2>BACKGROUND</h2>
         <p>
-          I grew up between the Bay Area and Hong Kong, and I&rsquo;m currently a junior at Boston
-          University studying data science, with a minor in math. Outside of coursework, I swim on
-          BU&rsquo;s Division I team and spend my free time writing, shooting, and editing short films
-          — trying to find the throughline between analytical thinking and creative work.
+          I grew up between the Bay Area and Hong Kong, and I&rsquo;m an NCAA Division I swimmer at
+          Boston University, graduating in December 2026 with a major in Data Science and minors in
+          Mathematics and Film. Outside of the pool and coursework, I spend my free time writing,
+          shooting, and editing short films — trying to find the throughline between analytical
+          thinking and creative work.
         </p>
       </div>
       <div className="goals-block">
         <h2>CURRENT GOALS</h2>
         <p>
-          Right now I&rsquo;m looking for an entry-level, full-time data science role for after I
-          graduate in May 2027 — something where I can apply modeling and analytics to real
-          problems, ideally at a place that values people who think visually as well as
-          quantitatively.
+          Right now I&rsquo;m looking for an entry-level, full-time data science / machine learning
+          role for after I graduate — something where I can apply modeling and analytics to real
+          problems.
         </p>
       </div>
     </section>
