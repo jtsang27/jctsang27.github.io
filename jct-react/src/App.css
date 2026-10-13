@@ -446,3 +446,38 @@ body::after {
   .hero-strip-track, .marquee-track { animation: none; }
   .reveal { opacity: 1; transform: none; transition: none; }
 }
+
+/* ---------- Round 3: cursor, progress, image motion ---------- */
+.progress {
+  position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 9100;
+  background: var(--accent); transform: scaleX(0); transform-origin: 0 50%;
+  animation: progress linear both; animation-timeline: scroll(root);
+}
+@keyframes progress { to { transform: scaleX(1); } }
+
+html.has-cursor, html.has-cursor * { cursor: none !important; }
+.cursor { position: fixed; top: 0; left: 0; z-index: 9500; pointer-events: none; }
+.cursor span {
+  position: absolute; width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%;
+  background: #fff; mix-blend-mode: difference;
+  transition: transform 0.35s cubic-bezier(.2,.7,.2,1);
+}
+.cursor[data-state='link'] span { transform: scale(2.6); }
+.cursor[data-state='play'] span { transform: scale(4.2); }
+
+.hero-name { translate: calc(var(--mx, 0) * -16px) calc(var(--my, 0) * -10px); transition: translate 0.4s ease-out; }
+.hero-strip { --tilt: calc(var(--mx, 0) * 6deg); }
+
+.strip-thumb {
+  transition: transform 0.5s cubic-bezier(.2,.7,.2,1);
+  animation: thumbIn 1.1s cubic-bezier(.2,.7,.2,1) both;
+  animation-delay: calc(var(--i, 0) * 110ms + 2.4s);
+}
+@keyframes thumbIn { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0 0 0 0); } }
+.strip-thumb:hover { transform: scale(1.1) rotate(-2deg); filter: url(#ripple); z-index: 2; }
+
+@media (prefers-reduced-motion: reduce) {
+  .strip-thumb { animation: none; }
+  .progress { display: none; }
+  .strip-thumb:hover { filter: none; }
+}

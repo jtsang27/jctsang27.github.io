@@ -95,6 +95,35 @@ function Loader({ onDone }) {
   );
 }
 
+// Soft-following cursor that grows over links and shows a play hint on video squares.
+function Cursor() {
+  const ref = useRef(null);
+  useEffect(() => {
+    if (!window.matchMedia('(pointer: fine)').matches) return undefined;
+    const el = ref.current;
+    let x = -100, y = -100, tx = -100, ty = -100, raf;
+    const move = (e) => {
+      tx = e.clientX; ty = e.clientY;
+      const t = e.target.closest && e.target.closest('a,button,.strip-thumb');
+      el.dataset.state = t ? (t.classList.contains('has-video') ? 'play' : 'link') : '';
+    };
+    const loop = () => {
+      x += (tx - x) * 0.2; y += (ty - y) * 0.2;
+      el.style.transform = `translate(${x}px, ${y}px)`;
+      raf = requestAnimationFrame(loop);
+    };
+    document.documentElement.classList.add('has-cursor');
+    window.addEventListener('mousemove', move);
+    raf = requestAnimationFrame(loop);
+    return () => {
+      document.documentElement.classList.remove('has-cursor');
+      window.removeEventListener('mousemove', move);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
+  return <div className="cursor" ref={ref} aria-hidden="true"><span /></div>;
+}
+
 function Nav() {
   return (
     <header>
@@ -153,7 +182,17 @@ function Hero() {
   const slide = heroSlides[current];
 
   return (
-    <section className="hero" id="hero" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+    <section
+      className="hero"
+      id="hero"
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
+      onMouseMove={(e) => {
+        const r = e.currentTarget.getBoundingClientRect();
+        e.currentTarget.style.setProperty('--mx', ((e.clientX - r.left) / r.width - 0.5).toFixed(3));
+        e.currentTarget.style.setProperty('--my', ((e.clientY - r.top) / r.height - 0.5).toFixed(3));
+      }}
+    >
       <div className="hero-slides">
         {heroSlides.map((s, i) => (
           <div
@@ -179,6 +218,13 @@ function Hero() {
             silhouette — not a per-letter stroke, which would show messy
             crossing lines wherever glyphs touch or overlap. */}
         <svg width="0" height="0" style={{ position: 'absolute' }} aria-hidden="true">
+          {/* Liquid ripple used on thumbnail hover (turbulence-driven displacement). */}
+          <filter id="ripple" x="-10%" y="-10%" width="120%" height="120%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.012 0.03" numOctaves="2" result="n">
+              <animate attributeName="baseFrequency" values="0.012 0.03;0.03 0.012;0.012 0.03" dur="4s" repeatCount="indefinite" />
+            </feTurbulence>
+            <feDisplacementMap in="SourceGraphic" in2="n" scale="14" xChannelSelector="R" yChannelSelector="G" />
+          </filter>
           <filter id="bubbleOutline">
             <feMorphology in="SourceAlpha" operator="dilate" radius="3" result="dilated" />
             <feComposite in="dilated" in2="SourceAlpha" operator="out" result="ring" />
@@ -200,7 +246,7 @@ function Hero() {
               <div
                 key={i}
                 className={'strip-thumb' + (s.videoId ? ' has-video' : '')}
-                style={{ background: s.thumbBg || s.bg }}
+                style={{ background: s.thumbBg || s.bg, '--i': i }}
                 onMouseEnter={() => onThumbEnter(idx)}
               />
             );
@@ -330,7 +376,17 @@ function Contact() {
       <Reveal as="p" className="contact-lead" delay={60}>
         Open to data science &amp; machine learning roles — and to talking about film.
       </Reveal>
-      <Reveal className="contact-links" delay={120}>
+      <Reveal
+        className="contact-links"
+        delay={120}
+        onMouseMove={(e) => {
+          const a = e.target.closest('a');
+          if (!a) return;
+          const r = a.getBoundingClientRect();
+          a.style.transform = `translate(${(e.clientX - r.left - r.width / 2) * 0.25}px, ${(e.clientY - r.top - r.height / 2) * 0.35}px)`;
+        }}
+        onMouseLeave={(e) => e.currentTarget.querySelectorAll('a').forEach((a) => { a.style.transform = ''; })}
+      >
         {/* TODO(owner): add your email as a mailto: link here. */}
         <a href="https://github.com/jtsang27" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
       </Reveal>
@@ -352,6 +408,8 @@ export default function App() {
 
   return (
     <>
+      <div className="progress" aria-hidden="true" />
+      <Cursor />
       {loading && <Loader onDone={() => setLoading(false)} />}
       <div className={loading ? 'site loading' : 'site'}>
         <Nav />

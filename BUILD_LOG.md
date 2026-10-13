@@ -24,3 +24,14 @@ Work done autonomously while the owner was away. Branch: `design/artistic-portfo
 ## Ideas queued for next rounds
 - Re-introduce a films/work section if wanted (it was removed earlier on request).
 - Per-slide hero videos once more YouTube IDs exist; add email to Contact.
+
+## Round 3 — research-driven motion (no libraries)
+Research: Codrops-style hover displacement, clip-path reveals, CSS scroll-driven animations (`animation-timeline`), award-site trends (micro-interactions, speed first).
+- Custom soft-follow cursor; grows on links, bigger "play" blob on video squares (fine pointers only; hidden on touch).
+- Liquid ripple (SVG feTurbulence + displacement) and tilt/scale on thumbnail hover.
+- Thumbnails reveal with a staggered clip-path wipe after the loader.
+- Mouse parallax on the hero name; magnetic Contact button.
+- Scroll-progress bar via CSS `animation-timeline: scroll(root)` (progressive enhancement).
+- All respect `prefers-reduced-motion`.
+Checks: build passes; effects verified wired in the preview browser. Not verified: ripple look under real mouse, Safari/Firefox.
+Next ideas: per-letter name wobble, view-timeline parallax on About facts, page-load clip-path curtain, WebGL image distortion if real photos are added.
