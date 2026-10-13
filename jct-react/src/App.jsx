@@ -307,6 +307,22 @@ function Goals() {
   );
 }
 
+const marqueeWords = ['DATA SCIENCE', 'FILM', 'MACHINE LEARNING', 'SWIM', 'STORY', 'MODELS'];
+
+// Endlessly scrolling outlined ticker; the list is doubled so the loop is seamless.
+function Marquee() {
+  const row = marqueeWords.concat(marqueeWords);
+  return (
+    <div className="marquee" aria-hidden="true">
+      <div className="marquee-track">
+        {row.concat(row).map((w, i) => (
+          <span key={i}>{w}<i>✦</i></span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function Contact() {
   return (
     <section className="contact" id="contact">
@@ -340,6 +356,7 @@ export default function App() {
       <div className={loading ? 'site loading' : 'site'}>
         <Nav />
         <Hero />
+        <Marquee />
         <Goals />
         <Contact />
         <Footer />

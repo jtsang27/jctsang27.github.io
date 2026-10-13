@@ -15,3 +15,12 @@ Work done autonomously while the owner was away. Branch: `design/artistic-portfo
 - Footer; film-grain overlay; focus-visible styles; `prefers-reduced-motion` support.
 - Meta description, theme-color, inline favicon, better `<title>`.
 - Assumptions to confirm: footer text "Data Science · Film"; accent color reused from existing palette.
+
+## Round 2 — art direction
+- Scrolling outlined marquee band (DATA SCIENCE ✦ FILM ✦ …) between hero and About.
+- Staggered entrance of the name after the loader finishes.
+- Marquee honors `prefers-reduced-motion`.
+
+## Ideas queued for next rounds
+- Re-introduce a films/work section if wanted (it was removed earlier on request).
+- Per-slide hero videos once more YouTube IDs exist; add email to Contact.
