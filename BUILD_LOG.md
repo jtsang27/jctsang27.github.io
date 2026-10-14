@@ -35,3 +35,11 @@ Research: Codrops-style hover displacement, clip-path reveals, CSS scroll-driven
 - All respect `prefers-reduced-motion`.
 Checks: build passes; effects verified wired in the preview browser. Not verified: ripple look under real mouse, Safari/Firefox.
 Next ideas: per-letter name wobble, view-timeline parallax on About facts, page-load clip-path curtain, WebGL image distortion if real photos are added.
+
+## Round 4 — generative loader flipbook
+Request: flip through creatively generated images on the loading screen, in different art styles.
+- Loader photos (missing files) replaced by 8 procedurally drawn canvas plates of one scene (sun / hills / sea) in different media: Claymation, Pencil sketch, Risograph, Linocut, Watercolor, Pixel art, Paper cut, Blueprint.
+- Seeded RNG, so each plate is stable between loads; no image assets, no libraries.
+- Flips every 300ms for 3s; label shows plate number + style name.
+- Checked via a contact sheet of all 8 canvases in the preview browser; fixed riso overprint.
+Ideas: more subjects per style (e.g. a swimmer, a film camera), slower first plate, animate plates (wobble) for a stop-motion feel.
