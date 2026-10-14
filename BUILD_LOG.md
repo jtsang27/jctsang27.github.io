@@ -43,3 +43,8 @@ Request: flip through creatively generated images on the loading screen, in diff
 - Flips every 300ms for 3s; label shows plate number + style name.
 - Checked via a contact sheet of all 8 canvases in the preview browser; fixed riso overprint.
 Ideas: more subjects per style (e.g. a swimmer, a film camera), slower first plate, animate plates (wobble) for a stop-motion feel.
+
+## Round 5 — UX critique and fixes
+Critique: (1) hero was flat gray with one tiny thumbnail; the best art vanished after the loader; (2) fake film titles/"DIRECTOR" on placeholder slides were misleading; (3) justified body text had rivers; (4) header collided with content on scroll; (5) strip squares were empty gradients.
+Fixes: generated plates (Pixel art, Blueprint, Linocut) are now the hero backdrops (dimmed only behind text, not the video) and the strip squares; slides honestly labeled "PLATE 0X / 04"; body text left-aligned at 62ch; header turns into a blurred bar after the hero.
+Still open: email on Contact; real film slides/videos; mobile pass not yet done; plate generation runs on main thread at load (~brief).

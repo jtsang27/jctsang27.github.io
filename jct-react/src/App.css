@@ -381,11 +381,12 @@ nav a:hover { opacity: 1; }
 .goals-block p {
   font-family: 'Nunito', sans-serif;
   font-weight: 400;
-  font-size: clamp(17px, 1.9vw, 21px);
-  line-height: 1.75;
-  text-align: justify;
-  text-indent: 2em;
+  font-size: clamp(18px, 1.9vw, 22px);
+  line-height: 1.7;
+  text-align: left;
   color: var(--text);
+  max-width: 62ch;
+  margin: 0 auto;
 }
 
 /* ---------- Contact ---------- */
@@ -482,4 +483,15 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
   .strip-thumb { animation: none; }
   .progress { display: none; }
   .strip-thumb:hover { filter: none; }
+}
+
+/* Header becomes a readable bar once you scroll past the hero */
+header { transition: background 0.3s ease, backdrop-filter 0.3s ease, padding 0.3s ease; }
+header.scrolled {
+  mix-blend-mode: normal;
+  background: rgba(18, 18, 20, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding-top: 16px; padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
 }

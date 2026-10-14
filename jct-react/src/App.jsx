@@ -10,9 +10,9 @@ import { useEffect, useRef, useState } from 'react';
 const ytThumb = (id) => `url('https://i.ytimg.com/vi/${id}/maxresdefault.jpg') center/cover`;
 
 const heroSlides = [
-  { title: 'Below the Surface', sub: 'Short Film',     role: 'DIRECTOR', name: 'Jonathan', bg: 'linear-gradient(135deg, #1c1c1f, #2a2a2e)' },
-  { title: 'Meet Day',          sub: 'Documentary',    role: 'DIRECTOR', name: 'Jonathan', bg: 'linear-gradient(135deg, #1a1f24, #262b30)' },
-  { title: 'Home, Twice',       sub: 'Personal Essay', role: 'DIRECTOR', name: 'Jonathan', bg: 'linear-gradient(135deg, #201c1a, #2c2622)' },
+  { title: 'Pixel Art',  sub: 'Generative study', role: 'PLATE', name: '01 / 04', plate: 5, bg: 'linear-gradient(135deg, #1c1c1f, #2a2a2e)' },
+  { title: 'Blueprint',  sub: 'Generative study', role: 'PLATE', name: '02 / 04', plate: 7, bg: 'linear-gradient(135deg, #1a1f24, #262b30)' },
+  { title: 'Linocut',    sub: 'Generative study', role: 'PLATE', name: '03 / 04', plate: 3, bg: 'linear-gradient(135deg, #201c1a, #2c2622)' },
   {
     title: 'Reel 2026',
     sub: 'Showreel',
@@ -165,7 +165,7 @@ const plateStyles = [
     for (let i = 0; i < 320; i++) { g.fillStyle = 'rgba(120,90,60,.07)'; g.fillRect(r() * w, r() * h, 1.5, 1.5); }
   } },
   { name: 'Pixel art', fn: (g, w, h) => {
-    const tw = 70, th = 88, t = document.createElement('canvas');
+    const tw = 96, th = Math.round((tw * h) / w), t = document.createElement('canvas');
     t.width = tw; t.height = th;
     const q = t.getContext('2d'), T = scene(tw, th, 1), sky = ['#2b1b4a', '#5a2a6e', '#a8416b', '#f0875a', '#ffd27a'];
     const band = th / 5.2;
@@ -220,10 +220,18 @@ const plateStyles = [
   } },
 ];
 
-function paintPlate(canvas, i) {
+function paintPlate(canvas, i, border = true) {
   const g = canvas.getContext('2d'), w = canvas.width, h = canvas.height;
   plateStyles[i % plateStyles.length].fn(g, w, h, rng(i * 9973 + 17), scene(w, h));
-  g.strokeStyle = 'rgba(242,239,233,.22)'; g.lineWidth = 1; g.strokeRect(14.5, 14.5, w - 29, h - 29);
+  if (border) { g.strokeStyle = 'rgba(242,239,233,.22)'; g.lineWidth = 1; g.strokeRect(14.5, 14.5, w - 29, h - 29); }
+}
+
+// Renders a plate to a data URL so it can be used as a CSS background.
+function plateURL(i, w, h, border) {
+  const c = document.createElement('canvas');
+  c.width = w; c.height = h;
+  paintPlate(c, i, border);
+  return c.toDataURL('image/jpeg', 0.85);
 }
 
 function Loader({ onDone }) {
@@ -317,8 +325,15 @@ function Cursor() {
 }
 
 function Nav() {
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const on = () => setScrolled(window.scrollY > window.innerHeight * 0.7);
+    on();
+    window.addEventListener('scroll', on, { passive: true });
+    return () => window.removeEventListener('scroll', on);
+  }, []);
   return (
-    <header>
+    <header className={scrolled ? 'scrolled' : ''}>
       <div className="logo">Jonathan</div>
       <nav>
         <a href="#about">About</a>
@@ -331,7 +346,24 @@ function Nav() {
 function Hero() {
   const [current, setCurrent] = useState(0);
   const [previewOn, setPreviewOn] = useState(false);
+  const [art, setArt] = useState({});
   const timerRef = useRef(null);
+
+  // Generated plates become the slide backdrops and strip squares (dimmed only behind the text).
+  useEffect(() => {
+    const t = setTimeout(() => {
+      const m = {};
+      heroSlides.forEach((sl, i) => {
+        if (sl.plate == null) return;
+        m[i] = {
+          bg: `linear-gradient(rgba(0,0,0,.42), rgba(0,0,0,.42)), url(${plateURL(sl.plate, 1280, 800, false)}) center/cover`,
+          thumb: `url(${plateURL(sl.plate, 300, 400, true)}) center/cover`,
+        };
+      });
+      setArt(m);
+    }, 0);
+    return () => clearTimeout(t);
+  }, []);
   // Once true (first thumbnail hover), auto-rotation stops for good — the
   // hero only changes when a different thumbnail is hovered from then on.
   const lockedRef = useRef(false);
@@ -390,7 +422,7 @@ function Hero() {
           <div
             key={i}
             className={'hero-slide' + (i === current ? ' active' : '')}
-            style={{ background: s.bg }}
+            style={{ background: (art[i] && art[i].bg) || s.bg }}
           >
             {i === current && previewOn && s.videoId && (
               <iframe
@@ -438,7 +470,7 @@ function Hero() {
               <div
                 key={i}
                 className={'strip-thumb' + (s.videoId ? ' has-video' : '')}
-                style={{ background: s.thumbBg || s.bg, '--i': i }}
+                style={{ background: s.thumbBg || (art[idx] && art[idx].thumb) || s.bg, '--i': i }}
                 onMouseEnter={() => onThumbEnter(idx)}
               />
             );
