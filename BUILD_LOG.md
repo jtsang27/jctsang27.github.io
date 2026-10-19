@@ -48,3 +48,8 @@ Ideas: more subjects per style (e.g. a swimmer, a film camera), slower first pla
 Critique: (1) hero was flat gray with one tiny thumbnail; the best art vanished after the loader; (2) fake film titles/"DIRECTOR" on placeholder slides were misleading; (3) justified body text had rivers; (4) header collided with content on scroll; (5) strip squares were empty gradients.
 Fixes: generated plates (Pixel art, Blueprint, Linocut) are now the hero backdrops (dimmed only behind text, not the video) and the strip squares; slides honestly labeled "PLATE 0X / 04"; body text left-aligned at 62ch; header turns into a blurred bar after the hero.
 Still open: email on Contact; real film slides/videos; mobile pass not yet done; plate generation runs on main thread at load (~brief).
+
+## Round 6 — mobile pass (375×812)
+Found: name overflowed (409px on a 375px screen); landscape art cropped badly on portrait; hover-only video trigger; one long facts column; 100vh jump with mobile browser bars; light Linocut slide hurt text contrast.
+Fixed: name min size 44px (now 359px wide); portrait-aspect hero art on portrait screens; tap also selects a strip square; facts 2×2; `100svh`; tighter mobile spacing; stronger dim on the Linocut slide + text shadow on hero captions.
+Not tested: real iOS/Android devices, landscape phones.

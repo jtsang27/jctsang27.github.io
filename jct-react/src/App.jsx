@@ -12,7 +12,7 @@ const ytThumb = (id) => `url('https://i.ytimg.com/vi/${id}/maxresdefault.jpg') c
 const heroSlides = [
   { title: 'Pixel Art',  sub: 'Generative study', role: 'PLATE', name: '01 / 04', plate: 5, bg: 'linear-gradient(135deg, #1c1c1f, #2a2a2e)' },
   { title: 'Blueprint',  sub: 'Generative study', role: 'PLATE', name: '02 / 04', plate: 7, bg: 'linear-gradient(135deg, #1a1f24, #262b30)' },
-  { title: 'Linocut',    sub: 'Generative study', role: 'PLATE', name: '03 / 04', plate: 3, bg: 'linear-gradient(135deg, #201c1a, #2c2622)' },
+  { title: 'Linocut',    sub: 'Generative study', role: 'PLATE', name: '03 / 04', plate: 3, dim: 0.62, bg: 'linear-gradient(135deg, #201c1a, #2c2622)' },
   {
     title: 'Reel 2026',
     sub: 'Showreel',
@@ -353,10 +353,13 @@ function Hero() {
   useEffect(() => {
     const t = setTimeout(() => {
       const m = {};
+      // Match the art's aspect to the screen so phones get a portrait composition.
+      const portrait = window.innerHeight > window.innerWidth;
+      const [aw, ah] = portrait ? [720, 1280] : [1280, 800];
       heroSlides.forEach((sl, i) => {
         if (sl.plate == null) return;
         m[i] = {
-          bg: `linear-gradient(rgba(0,0,0,.42), rgba(0,0,0,.42)), url(${plateURL(sl.plate, 1280, 800, false)}) center/cover`,
+          bg: `linear-gradient(rgba(0,0,0,${sl.dim || 0.42}), rgba(0,0,0,${sl.dim || 0.42})), url(${plateURL(sl.plate, aw, ah, false)}) center/cover`,
           thumb: `url(${plateURL(sl.plate, 300, 400, true)}) center/cover`,
         };
       });
@@ -472,6 +475,7 @@ function Hero() {
                 className={'strip-thumb' + (s.videoId ? ' has-video' : '')}
                 style={{ background: s.thumbBg || (art[idx] && art[idx].thumb) || s.bg, '--i': i }}
                 onMouseEnter={() => onThumbEnter(idx)}
+                onClick={() => onThumbEnter(idx)}
               />
             );
           })}
