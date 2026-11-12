@@ -53,3 +53,9 @@ Still open: email on Contact; real film slides/videos; mobile pass not yet done;
 Found: name overflowed (409px on a 375px screen); landscape art cropped badly on portrait; hover-only video trigger; one long facts column; 100vh jump with mobile browser bars; light Linocut slide hurt text contrast.
 Fixed: name min size 44px (now 359px wide); portrait-aspect hero art on portrait screens; tap also selects a strip square; facts 2×2; `100svh`; tighter mobile spacing; stronger dim on the Linocut slide + text shadow on hero captions.
 Not tested: real iOS/Android devices, landscape phones.
+
+## Round 7 — rebuilt to mimic extrafazant.nl
+Studied the reference live: Webflow + GSAP (ScrollTrigger, SplitText) + Lenis smooth scroll; light grey page, condensed heavy sans mixed with a light serif, blue/pink/orange accents.
+Replicated (same libraries, installed from npm): blue curtain page-load wipe (kept the art-style flipbook on it); centered pill nav + script logo + contact pill, header turns white over dark sections; hero cursor image trail; masked line reveals on every heading; squiggle "Explore more" link; logo marquee (skills as logos); tilted polaroids with slap-on sticker; dark "Recent work" sticky stacking cards with thick colour frames + rotating badge; fanned service cards that spread on entry and straighten on hover; scattered parallax photos with bubble name stickers; dark footer with giant script logo; blue full-screen mobile menu.
+No reference assets copied — imagery is generated plates + Jonathan's own YouTube thumbnail. Footer credits the design inspiration.
+Checked: desktop 1440×900 and mobile 375×812 in the preview browser, no console errors, no horizontal overflow.
