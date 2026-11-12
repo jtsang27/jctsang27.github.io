@@ -212,12 +212,19 @@ function Hero({ art }) {
       <div className="trail" aria-hidden="true" />
       <div className="hero-mobile-card" style={bg(art && art.portrait[mobileFrame])} aria-hidden="true" />
       <div className="hero-content">
-        <p className="kicker" data-split>Data scientist, Boston University<br />Graduating December 2026</p>
+        <p className="hero-status" data-fade><i />Open to full-time roles · graduating December 2026</p>
+        <p className="kicker hero-kicker" data-split>Hi, I&rsquo;m Jonathan Tsang,<br />a data scientist.</p>
         <h1 className="display hero-title" data-hero-title>
           <span className="line"><span className="lt">TURNING</span> <b>DATA</b></span>
           <span className="line"><b>INTO</b> <span className="serif">DECISIONS</span></span>
         </h1>
+        <ul className="hero-proof" data-fade aria-label="Highlights">
+          <li><b>Amazon (AWS)</b> Data Specialist Intern</li>
+          <li><b>Boston University</b> B.S. Data Science</li>
+          <li><b>NCAA Division I</b> swimmer</li>
+        </ul>
         <div className="hero-cta" data-fade>
+          <Button href={LINKEDIN} external>View my LinkedIn</Button>
           <SquiggleLink href="#why">Why hire me</SquiggleLink>
         </div>
       </div>

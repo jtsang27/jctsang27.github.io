@@ -68,3 +68,8 @@ Source: resume "Jonathan Tsang Nov 10.pdf" + public GitHub repos.
 - What I do: Data engineering / Machine learning / Analytics. Places → Experience (AWS, BU Spark!, Yefa, Azubu, BU Swim) with roles and dates.
 - Footer CTA: open to full-time DS/ML/DE roles; LinkedIn + GitHub. Logo now "Jonathan Tsang".
 - Not added: email/phone (kept off the public page pending owner approval).
+
+## Round 9 — hero first
+Goal: a recruiter who only sees the first screen gets who, what, proof and next step.
+- Added "Open to full-time roles · graduating December 2026" status (pulsing dot), "Hi, I'm Jonathan Tsang, a data scientist.", proof pills (Amazon (AWS) Data Specialist Intern / Boston University B.S. Data Science / NCAA Division I swimmer), and a primary "View my LinkedIn" button beside "Why hire me".
+- Phones: dropped the rotating art card so the whole pitch + CTA fits the first screen (CTA bottom at 625px on 375×812).
