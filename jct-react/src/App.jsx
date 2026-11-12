@@ -9,10 +9,9 @@ import { plateStyles, paintPlate, plateURL } from './plates';
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
 // Layout, motion and vibe are modelled on extrafazant.nl (credited in the footer);
-// all imagery here is generated in plates.js or comes from Jonathan's own YouTube.
-const REEL_ID = 'P3eojeUc0O4'; // TODO: swap for your real reel's YouTube ID
-const REEL_THUMB = `https://i.ytimg.com/vi/${REEL_ID}/maxresdefault.jpg`;
+// all imagery here is generated in plates.js. Content comes from Jonathan's resume.
 const GITHUB = 'https://github.com/jtsang27';
+const LINKEDIN = 'https://www.linkedin.com/in/jonathantsang0/';
 
 // Plate indices from plates.js
 const P = { clay: 0, pencil: 1, riso: 2, lino: 3, water: 4, pixel: 5, paper: 6, blue: 7 };
@@ -160,11 +159,11 @@ function Header() {
   const close = () => setOpen(false);
   return (
     <header className={`site-header${open ? ' menu-open' : ''}`}>
-      <a href="#top" className="logo" aria-label="Jonathan Tsang, home">Jonathan</a>
+      <a href="#top" className="logo" aria-label="Jonathan Tsang, home">Jonathan Tsang</a>
       <nav className="nav-pills" aria-label="Main">
-        <a href="#who">Who</a>
-        <a href="#work">Work</a>
-        <a href="#services">What I do</a>
+        <a href="#why">Why me</a>
+        <a href="#work">Projects</a>
+        <a href="#experience">Experience</a>
       </nav>
       <a href="#contact" className="contact-pill"><i />Contact</a>
       <button
@@ -176,9 +175,9 @@ function Header() {
         <span /><span />
       </button>
       <div className="mobile-menu" onClick={close}>
-        <a href="#who">Who</a>
-        <a href="#work">Work</a>
-        <a href="#services">What I do</a>
+        <a href="#why">Why me</a>
+        <a href="#work">Projects</a>
+        <a href="#experience">Experience</a>
         <a href="#contact">Contact</a>
       </div>
     </header>
@@ -188,16 +187,17 @@ function Header() {
 /* --------------------------------------------------------------- hero --- */
 
 const skills = [
-  { t: 'Python', f: 'sans' },
-  { t: 'PyTorch', f: 'serif' },
-  { t: 'SQL', f: 'bubble' },
-  { t: 'pandas', f: 'script' },
-  { t: 'scikit-learn', f: 'sans' },
+  { t: 'Amazon (AWS)', f: 'sans' },
+  { t: 'Python', f: 'serif' },
+  { t: 'Spark', f: 'bubble' },
+  { t: 'SQL', f: 'sans' },
+  { t: 'PyTorch', f: 'script' },
   { t: 'Boston University', f: 'serif' },
-  { t: 'NCAA D1', f: 'bubble' },
-  { t: 'Premiere Pro', f: 'sans' },
-  { t: 'DaVinci', f: 'script' },
-  { t: 'Tableau', f: 'serif' },
+  { t: 'Kafka', f: 'bubble' },
+  { t: 'PostgreSQL', f: 'sans' },
+  { t: 'Tableau', f: 'script' },
+  { t: 'Rust', f: 'bubble' },
+  { t: 'NCAA D1', f: 'sans' },
 ];
 
 function Hero({ art }) {
@@ -212,16 +212,16 @@ function Hero({ art }) {
       <div className="trail" aria-hidden="true" />
       <div className="hero-mobile-card" style={bg(art && art.portrait[mobileFrame])} aria-hidden="true" />
       <div className="hero-content">
-        <p className="kicker" data-split>Data science,<br />film &amp; swimming</p>
+        <p className="kicker" data-split>Data scientist, Boston University<br />Graduating December 2026</p>
         <h1 className="display hero-title" data-hero-title>
           <span className="line"><span className="lt">TURNING</span> <b>DATA</b></span>
-          <span className="line"><b>INTO</b> <span className="serif">STORIES</span></span>
+          <span className="line"><b>INTO</b> <span className="serif">DECISIONS</span></span>
         </h1>
         <div className="hero-cta" data-fade>
-          <SquiggleLink href="#who">Explore more</SquiggleLink>
+          <SquiggleLink href="#why">Why hire me</SquiggleLink>
         </div>
       </div>
-      <div className="logo-marquee" aria-label="Tools and affiliations">
+      <div className="logo-marquee" aria-label="Experience and tools">
         <div className="logo-track">
           {[0, 1].map((k) => (
             <div className="logo-set" key={k} aria-hidden={k === 1}>
@@ -236,29 +236,45 @@ function Hero({ art }) {
 
 /* -------------------------------------------------------------- intro --- */
 
-function Intro({ art }) {
+const reasons = [
+  {
+    n: '01', c: 'blue', stat: '8,000', unit: 'manual hours saved a year',
+    t: 'I automate the work that slows teams down',
+    body: 'As a Data Specialist Intern at Amazon (AWS), I built SQL/Python pipelines on Lambda, SES, SNS and CloudWatch that turn raw vendor milestone data into automated SLA reporting, cutting turnaround ~90%. I also built a should-cost model across 100 global cabling vendors and quantified a $100M savings opportunity in procurement.',
+  },
+  {
+    n: '02', c: 'pink', stat: 'PPO', unit: 'reinforcement learning, built from scratch',
+    t: 'I build ML systems end to end',
+    body: 'I wrote a Rust game simulator from scratch and trained agents on it with PPO, self-play and CNN state encoders, owning the environment, reward shaping, training loop and evaluation. I also built a multi-agent LLM system that ranks 150–200 articles a day, and data pipelines on Spark, Kafka and TimescaleDB.',
+  },
+  {
+    n: '03', c: 'orange', stat: '+50%', unit: 'conversion from one pricing experiment',
+    t: 'I turn analysis into results, and I lead',
+    body: 'Running growth analytics for TextMarley (Top 10 on Product Hunt, 1,000+ users), my Stripe pricing experiment lifted conversion 50% and cut cost per user 30%, earning a $5,000 BU Accelerator seed. Now I lead 3 client data science projects with 18 students at BU Spark!, while training as an NCAA Division I swimmer.',
+  },
+];
+
+function Reasons() {
   return (
-    <section className="intro" id="who">
-      <div className="intro-photos">
-        <figure className="polaroid polaroid-a" data-speed="0.12">
-          <div className="polaroid-img" style={bg(REEL_THUMB)} />
-        </figure>
-        <figure className="polaroid polaroid-b" data-speed="-0.08">
-          <div className="polaroid-img" style={bg(art && art.portrait[P.riso])} />
-        </figure>
-        <Sticker color="pink" tilt={-10} className="intro-sticker">D1<br />SWIM</Sticker>
+    <section className="why" id="why">
+      <div className="why-head">
+        <p className="kicker" data-split>Why hire me</p>
+        <h2 className="display" data-split><b>THREE REASONS</b><br /><span className="serif">TO HIRE ME</span></h2>
+        <Sticker color="pink" tilt={8} className="why-sticker">D1<br />ATHLETE</Sticker>
       </div>
-      <div className="intro-text">
-        <p className="kicker" data-split>Who I am</p>
-        <h2 className="display" data-split>
-          <b>THE DATA SCIENTIST</b><br /><span className="serif">WHO FILMS</span>
-        </h2>
-        <p className="body" data-split>
-          NCAA Division I swimmer at Boston University, graduating December 2026 in Data Science
-          with minors in Mathematics and Film. Grew up between the Bay Area and Hong Kong. I build
-          models, then cut the story around them.
-        </p>
-        <div data-fade><Button href="#work">See my work</Button></div>
+      <div className="why-grid">
+        {reasons.map((r) => (
+          <article className={`reason frame-${r.c}`} key={r.n}>
+            <span className="reason-n">{r.n}</span>
+            <div className="reason-stat">{r.stat}</div>
+            <div className="reason-unit">{r.unit}</div>
+            <h3>{r.t}</h3>
+            <p>{r.body}</p>
+          </article>
+        ))}
+      </div>
+      <div className="why-cta" data-fade>
+        <Button href={LINKEDIN} external>View my LinkedIn</Button>
       </div>
     </section>
   );
@@ -266,48 +282,33 @@ function Intro({ art }) {
 
 /* --------------------------------------------------------------- work --- */
 
-function ReelCard() {
-  const [playing, setPlaying] = useState(false);
-  return (
-    <div className="work-media">
-      {playing ? (
-        <iframe
-          src={`https://www.youtube-nocookie.com/embed/${REEL_ID}?autoplay=1&rel=0&playsinline=1`}
-          title="Reel 2026"
-          allow="autoplay; encrypted-media; picture-in-picture"
-          allowFullScreen
-        />
-      ) : (
-        <button className="work-play" style={bg(REEL_THUMB)} onClick={() => setPlaying(true)} aria-label="Play Reel 2026">
-          <span className="play-dot"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg></span>
-        </button>
-      )}
-    </div>
-  );
-}
-
 function Work({ art }) {
   const cards = [
-    { title: 'REEL 2026', tag: 'Film · Showreel', color: 'red', media: <ReelCard /> },
     {
-      title: 'GENERATIVE PLATES',
-      tag: 'Code · Canvas',
-      color: 'blue',
-      media: <div className="work-media" style={bg(art && art.wide[P.blue])} />,
+      title: 'RL GAME AGENT',
+      tag: 'Rust · PyTorch · PPO self-play',
+      color: 'red',
+      href: 'https://github.com/jtsang27/crust-sim',
+      media: <div className="work-media" style={bg(art && art.wide[P.pixel])} />,
     },
     {
-      title: 'DATA PROJECTS',
-      tag: 'Python · ML · GitHub',
+      title: 'TEXTMARLEY',
+      tag: 'Growth analytics · Product Hunt Top 10',
+      color: 'blue',
+      media: <div className="work-media" style={bg(art && art.wide[P.riso])} />,
+    },
+    {
+      title: 'AI NEWS RANKER',
+      tag: 'Multi-agent LLMs · 150–200 articles/day',
       color: 'pink',
-      href: GITHUB,
-      media: <div className="work-media" style={bg(art && art.wide[P.pencil])} />,
+      media: <div className="work-media" style={bg(art && art.wide[P.blue])} />,
     },
   ];
   return (
     <section className="work theme-dark" id="work" data-theme="dark">
       <div className="work-head">
-        <p className="kicker" data-split>Worth a look. Worth a share.<br />Here&rsquo;s some of what I make.</p>
-        <h2 className="display" data-split><b>RECENT</b> <span className="serif">WORK</span></h2>
+        <p className="kicker" data-split>Built end to end.<br />A few projects I&rsquo;m proud of.</p>
+        <h2 className="display" data-split><b>SELECTED</b> <span className="serif">PROJECTS</span></h2>
       </div>
       <div className="work-stack">
         {cards.map((c) => (
@@ -321,9 +322,9 @@ function Work({ art }) {
         ))}
       </div>
       <div className="work-foot" data-fade>
-        <Button href={GITHUB} color="pink" external>See more on GitHub</Button>
+        <Button href={GITHUB} color="pink" external>See the code on GitHub</Button>
       </div>
-      <SpinBadge text="JONATHAN TSANG ✦ DATA ✦ FILM ✦ SWIM ✦ " />
+      <SpinBadge text="JONATHAN TSANG ✦ DATA ✦ ML ✦ OPEN TO WORK ✦ " />
     </section>
   );
 }
@@ -332,9 +333,9 @@ function Work({ art }) {
 
 function Services({ art }) {
   const items = [
-    { t: 'DATA SCIENCE', d: 'Models, analysis & ML that hold up', c: 'blue', p: P.blue },
-    { t: 'FILM', d: 'Stories, shot & cut', c: 'pink', p: P.lino },
-    { t: 'SWIM', d: 'NCAA Division I at Boston University', c: 'orange', p: P.water },
+    { t: 'DATA ENGINEERING', d: 'Spark, Kafka, PostgreSQL & ETL pipelines that run themselves', c: 'blue', p: P.blue },
+    { t: 'MACHINE LEARNING', d: 'PyTorch, reinforcement learning & LLM agents', c: 'pink', p: P.lino },
+    { t: 'ANALYTICS', d: 'A/B tests, causal inference & KPIs leaders act on', c: 'orange', p: P.water },
   ];
   return (
     <section className="services" id="services">
@@ -352,7 +353,7 @@ function Services({ art }) {
         ))}
       </div>
       <div className="services-cta" data-fade>
-        <SquiggleLink href="#contact" dir="right">Get in touch</SquiggleLink>
+        <SquiggleLink href="#experience" dir="down">See where I&rsquo;ve done it</SquiggleLink>
       </div>
     </section>
   );
@@ -360,26 +361,27 @@ function Services({ art }) {
 
 /* ------------------------------------------------------------- places --- */
 
-function Places({ art }) {
-  const spots = [
-    { label: 'Bay Area', p: P.paper, c: 'orange', pos: 'a', speed: 0.15 },
-    { label: 'Hong Kong', p: P.pixel, c: 'pink', pos: 'b', speed: -0.1 },
-    { label: 'Boston', p: P.clay, c: 'blue', pos: 'c', speed: 0.25 },
-    { label: 'The Pool', p: P.water, c: 'yellow', pos: 'd', speed: -0.05 },
-    { label: 'Edit Bay', p: P.riso, c: 'red', pos: 'e', speed: 0.2 },
+function Experience({ art }) {
+  const jobs = [
+    { label: 'Amazon (AWS)', role: 'Data Specialist Intern', when: 'Austin · Jun–Aug 2026', p: P.blue, c: 'blue', pos: 'a', speed: 0.15 },
+    { label: 'BU Spark!', role: 'Data Science Project Manager', when: 'Boston · Sep 2026–now', p: P.clay, c: 'pink', pos: 'b', speed: -0.1 },
+    { label: 'Yefa', role: 'Business Operations Manager', when: 'San Francisco · Dec 2025–Apr 2026', p: P.paper, c: 'orange', pos: 'c', speed: 0.25 },
+    { label: 'Azubu', role: 'Strategist & Research Intern', when: 'Tokyo · Jun–Sep 2025', p: P.pixel, c: 'red', pos: 'd', speed: -0.05 },
+    { label: 'BU Swim', role: 'NCAA Division I, 3x Honor Roll', when: 'Boston · 2023–2026', p: P.water, c: 'yellow', pos: 'e', speed: 0.2 },
   ];
   return (
-    <section className="places">
+    <section className="places" id="experience">
       <div className="places-head">
         <span className="oval-logo" data-pop>JT</span>
-        <p className="kicker" data-split>Where I&rsquo;ve lived &amp; trained</p>
-        <h2 className="display" data-split>BAY-HK-<b>BOS</b></h2>
+        <p className="kicker" data-split>Where I&rsquo;ve worked</p>
+        <h2 className="display" data-split>BOS-AUS-SF-<b>TYO</b></h2>
       </div>
       <div className="places-field">
-        {spots.map((s) => (
-          <figure className={`place place-${s.pos}`} key={s.label} data-speed={s.speed}>
-            <div className="place-img" style={bg(art && art.portrait[s.p])} />
-            <Sticker color={s.c} tilt={s.speed > 0 ? -7 : 6} className="place-sticker">{s.label}</Sticker>
+        {jobs.map((j) => (
+          <figure className={`place place-${j.pos}`} key={j.label} data-speed={j.speed}>
+            <div className="place-img" style={bg(art && art.portrait[j.p])} />
+            <Sticker color={j.c} tilt={j.speed > 0 ? -7 : 6} className="place-sticker">{j.label}</Sticker>
+            <figcaption><b>{j.role}</b><span>{j.when}</span></figcaption>
           </figure>
         ))}
       </div>
@@ -394,23 +396,27 @@ function Footer() {
     <footer className="footer theme-dark" id="contact" data-theme="dark">
       <div className="footer-cta">
         <h2 className="display" data-split>
-          <b>WANT TO SET</b><br /><span className="serif">SOMETHING IN MOTION?</span>
+          <b>LET&rsquo;S BUILD</b><br /><span className="serif">SOMETHING TOGETHER</span>
         </h2>
-        <p className="body" data-split>Tell me what you&rsquo;re working on. I&rsquo;ll help make it visible.</p>
-        <div data-fade><Button href={GITHUB} color="pink" external>Say hi on GitHub</Button></div>
+        <p className="body" data-split>Graduating December 2026 and open to full-time data science, machine learning and data engineering roles.</p>
+        <div className="footer-btns" data-fade>
+          <Button href={LINKEDIN} color="pink" external>Message me on LinkedIn</Button>
+          <Button href={GITHUB} external>GitHub</Button>
+        </div>
       </div>
       <div className="footer-grid">
         <div className="footer-logo">Jonathan</div>
         <div className="footer-col">
           <h4>Navigation</h4>
-          <a href="#who">Who</a><a href="#work">Work</a><a href="#services">What I do</a><a href="#top">Back to top</a>
+          <a href="#why">Why me</a><a href="#work">Projects</a><a href="#experience">Experience</a><a href="#top">Back to top</a>
         </div>
         <div className="footer-col">
           <h4>Based</h4>
           <span>Boston University</span><span>Boston, MA</span>
         </div>
         <div className="footer-col">
-          <h4>Socials</h4>
+          <h4>Find me</h4>
+          <a href={LINKEDIN} target="_blank" rel="noopener noreferrer">LinkedIn</a>
           <a href={GITHUB} target="_blank" rel="noopener noreferrer">GitHub</a>
         </div>
       </div>
@@ -496,11 +502,11 @@ function useMotion(rootRef, revealed, art) {
       });
 
       // Polaroids drop in tilted; sticker slaps on.
-      gsap.from('.polaroid', {
-        rotation: 0, y: 80, opacity: 0, duration: 1.2, ease: 'expo.out', stagger: 0.12,
-        scrollTrigger: { trigger: '.intro', start: 'top 75%', once: true },
+      gsap.from('.reason', {
+        y: 100, rotation: (i) => [-4, 3, -3][i], opacity: 0, duration: 1.2, ease: 'expo.out', stagger: 0.12,
+        scrollTrigger: { trigger: '.why-grid', start: 'top 80%', once: true },
       });
-      gsap.utils.toArray('.intro-sticker, [data-pop], .place-sticker').forEach((st) => {
+      gsap.utils.toArray('.why-sticker, [data-pop], .place-sticker').forEach((st) => {
         gsap.from(st, {
           scale: 0, rotation: -50, duration: 0.8, ease: 'back.out(2.4)',
           scrollTrigger: { trigger: st, start: 'top 88%', once: true },
@@ -560,7 +566,7 @@ function useMotion(rootRef, revealed, art) {
         const y = e.clientY - r.top;
         if (Math.hypot(x - last.x, y - last.y) < 120) return;
         last = { x, y };
-        const pool = [...a.portrait, REEL_THUMB];
+        const pool = a.portrait;
         const el = document.createElement('div');
         el.className = 'trail-card';
         el.style.backgroundImage = `url(${pool[n++ % pool.length]})`;
@@ -602,10 +608,10 @@ export default function App() {
         <Header />
         <main>
           <Hero art={art} />
-          <Intro art={art} />
+          <Reasons />
           <Work art={art} />
           <Services art={art} />
-          <Places art={art} />
+          <Experience art={art} />
         </main>
         <Footer />
       </div>

@@ -59,3 +59,12 @@ Studied the reference live: Webflow + GSAP (ScrollTrigger, SplitText) + Lenis sm
 Replicated (same libraries, installed from npm): blue curtain page-load wipe (kept the art-style flipbook on it); centered pill nav + script logo + contact pill, header turns white over dark sections; hero cursor image trail; masked line reveals on every heading; squiggle "Explore more" link; logo marquee (skills as logos); tilted polaroids with slap-on sticker; dark "Recent work" sticky stacking cards with thick colour frames + rotating badge; fanned service cards that spread on entry and straighten on hover; scattered parallax photos with bubble name stickers; dark footer with giant script logo; blue full-screen mobile menu.
 No reference assets copied — imagery is generated plates + Jonathan's own YouTube thumbnail. Footer credits the design inspiration.
 Checked: desktop 1440×900 and mobile 375×812 in the preview browser, no console errors, no horizontal overflow.
+
+## Round 8 — hiring focus
+Source: resume "Jonathan Tsang Nov 10.pdf" + public GitHub repos.
+- Hero: "Turning data into decisions"; kicker "Data scientist, Boston University / Graduating December 2026"; marquee = Amazon (AWS) + core tools.
+- Panel 2 is now "Three reasons to hire me": (01) AWS automation — ~8,000 hrs/yr saved, ~90% faster SLA reporting, $100M savings opportunity; (02) end-to-end ML — Rust simulator + PPO self-play RL, multi-agent LLM ranker, Spark/Kafka/TimescaleDB; (03) analysis → results + leadership — TextMarley +50% conversion, −30% cost/user, $5K seed, leading 3 projects / 18 students at BU Spark!, D1 swimmer.
+- Projects: RL game agent (links crust-sim), TextMarley, AI news ranker. Reel/film removed.
+- What I do: Data engineering / Machine learning / Analytics. Places → Experience (AWS, BU Spark!, Yefa, Azubu, BU Swim) with roles and dates.
+- Footer CTA: open to full-time DS/ML/DE roles; LinkedIn + GitHub. Logo now "Jonathan Tsang".
+- Not added: email/phone (kept off the public page pending owner approval).
