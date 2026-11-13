@@ -1,4 +1,4 @@
-# jctsang27.github.io
+# jtsang27.github.io
 
 Personal site for Jonathan Tsang — Vite + React, deployed to GitHub Pages.
 
