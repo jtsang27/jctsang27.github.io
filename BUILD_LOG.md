@@ -73,3 +73,9 @@ Source: resume "Jonathan Tsang Nov 10.pdf" + public GitHub repos.
 Goal: a recruiter who only sees the first screen gets who, what, proof and next step.
 - Added "Open to full-time roles · graduating December 2026" status (pulsing dot), "Hi, I'm Jonathan Tsang, a data scientist.", proof pills (Amazon (AWS) Data Specialist Intern / Boston University B.S. Data Science / NCAA Division I swimmer), and a primary "View my LinkedIn" button beside "Why hire me".
 - Phones: dropped the rotating art card so the whole pitch + CTA fits the first screen (CTA bottom at 625px on 375×812).
+
+## Round 10 — less flashy, hire-me first
+- First screen is now "Why you should hire me": status, name line, and the three reasons (8,000 hrs at AWS / end-to-end ML / +50% conversion) with LinkedIn + GitHub CTAs. Fits a 1440×900 screen.
+- Removed: flipbook loader, blue curtain, cursor image trail, logo marquee, stickers, spinning badge, tilted/fanned/stacking cards, parallax, scattered photos, giant script footer logo.
+- Sections now: Projects (3-card grid), Skills (4 groups), Experience (dark timeline from the resume, incl. education), Contact footer.
+- Kept: fonts/palette, smooth scrolling, quiet line reveals and fade-ups, header switching on dark sections.
